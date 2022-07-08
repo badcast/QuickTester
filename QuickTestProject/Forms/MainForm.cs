@@ -28,6 +28,7 @@ namespace QuickTestProject
         bool canChangeQuests = true;
         bool canDrawableProject = true;
         bool canUpdateStatsOne = true;
+        bool isCached;
 
         public Explorer explorer;
         public MainForm()
@@ -116,15 +117,6 @@ namespace QuickTestProject
                     explorer.focusProject_internal(combobox_projectListSel.SelectedIndex);
             };
 
-            explorer.onProjectFocusChanged += (l, n) =>
-            {
-                bool lst = canFocusProject;
-                canFocusProject = false;
-                combobox_projectListSel.SelectedIndex = explorer.currentProjectIndex;
-                drawProject(n);
-                canFocusProject = lst;
-            };
-
             hideNumberQuests.CheckedChanged += (o, e) =>
             {
                 Explorer.projectConfiguration.hideNumberQuests = hideNumberQuests.Checked;
@@ -146,6 +138,16 @@ namespace QuickTestProject
             canDrawableProject = false;
 
             explorer.init();
+
+            explorer.onProjectFocusChanged += (l, n) =>
+            {
+                bool lst = canFocusProject;
+                isCached = false;
+                canFocusProject = false;
+                combobox_projectListSel.SelectedIndex = explorer.currentProjectIndex;
+                drawProject(n);
+                canFocusProject = lst;
+            };
 
             explorer.onProjectListChanged += updateProjectList;
             tabPage3Caption = tabPage3.Text;
@@ -177,7 +179,7 @@ namespace QuickTestProject
 
             pages.SelectedIndexChanged += (o, e) =>
             {
-                if (pages.SelectedTab == tabPage3)
+                if (pages.SelectedTab == tabPage3 && !isCached)
                     updateQuestions();
             };
 
@@ -460,31 +462,41 @@ namespace QuickTestProject
             int x, y;
             Project project = explorer.currentProject;
 
-            if (!canChangeQuests || pages.SelectedTab != tabPage3 || !(tabPage3 as Panel).Enabled)
+            if (isCached || !canChangeQuests || pages.SelectedTab != tabPage3 || !(tabPage3 as Panel).Enabled)
                 return;
             Cursor = Cursors.WaitCursor;
-            projectExplorer.Visible = false;
+            projectExplorer.layout.Visible = false;
+            canUpdateStatsOne = true;
             y = project.questionCount - projectExplorer.count; // update at 32 objects
             Control[] optimizedVersion = y > 0 ? new Control[y] : null;
-            for (x = 0; x < y; ++x)
-            {
-                Components.EditorQuestionObjectView fc = new Components.EditorQuestionObjectView();
-                fc.questionIndex = x;
-                fc.collapse = true;
-                fc.Dock = DockStyle.Fill;
-                optimizedVersion[x] = fc;
-            }
+            x = 0;
             if (optimizedVersion != null)
             {
+                for (; x < y; ++x)
+                {
+                    Components.EditorQuestionObjectView fc = new Components.EditorQuestionObjectView();
+                    fc.questionIndex = x;
+                    fc.collapse = true;
+                    fc.Dock = DockStyle.Fill;
+                    optimizedVersion[x] = fc;
+                }
+                if (projectExplorer.layout.Controls.Count != 0)
+                    x = projectExplorer.layout.Controls.Count;
+                else x = 0;
                 projectExplorer.layout.Controls.AddRange(optimizedVersion);
-                optimizedVersion = null;
             }
 
             //refresh
-            for (x = 0; x < projectExplorer.count; ++x)
+            for (; x < projectExplorer.count; ++x)
                 updateQuestion(x);
+            optimizedVersion = null;
             Cursor = Cursors.Default;
-            projectExplorer.Visible = true;
+            projectExplorer.layout.Visible = true;
+            isCached = true;
+
+
+                label_stats.Text = string.Format(formatStats, explorer.currentProject.questionCount, explorer.currentProject.totalAnswers);
+         
 
             GC.Collect(0, GCCollectionMode.Forced, true, true);
         }
@@ -493,9 +505,12 @@ namespace QuickTestProject
         {
             Project cp = explorer.currentProject;
             Question q;
-            bool visib = projectExplorer.Visible;
-            projectExplorer.Visible = false;
             var fc = projectExplorer.get(questionIndex);
+            if (canUpdateStatsOne)
+            {
+                label_stats.Text = string.Format(formatStats, explorer.currentProject.questionCount, explorer.currentProject.totalAnswers);
+                canUpdateStatsOne = false;
+            }
             if (queueDelete)
             {
                 cp.deleteQuestion(questionIndex);
@@ -513,7 +528,6 @@ namespace QuickTestProject
             fc.questionIndex = questionIndex;
             fc.active = q.active;
             updateAnswers(questionIndex);
-            projectExplorer.Visible = visib;
         }
 
         public string[] getAnswers(int questionIndex)
@@ -531,7 +545,7 @@ namespace QuickTestProject
             Project project = explorer.currentProject;
             Question q = project.getNativeQuestion(questionIndex);
             var view = projectExplorer.get(questionIndex);
-            var content = view.answerContents;
+            var questionContent = view.answerContents;
             int x, y, z;
             bool multiValues;
             int singleValue;
@@ -542,13 +556,9 @@ namespace QuickTestProject
 
             multiValues = q.correctAnswers.Count > 1;
             singleValue = q.correctAnswers[0];
-            if (canUpdateStatsOne)
-            {
-                label_stats.Text = string.Format(formatStats, project.questionCount, project.totalAnswers);
-            }
 
             project.addAnswers(questionIndex, append);
-            z = content.Controls.Count - 1;
+            z = questionContent.Controls.Count - 1;
             y = q.answers.Count - z; // update at 32 objects
             Control[] optimizedVersion = y > 0 ? new Control[y] : null;
             for (x = 0; x < y; ++x)
@@ -561,9 +571,9 @@ namespace QuickTestProject
                 optimizedVersion[x] = element;
             }
             if (optimizedVersion != null)
-                content.Controls.AddRange(optimizedVersion);
+                questionContent.Controls.AddRange(optimizedVersion);
 
-            for (x = 1; x < content.Controls.Count; ++x)
+            for (x = 1; x < questionContent.Controls.Count; ++x)
             {
                 Components.EditorAnswerObjectView element = view.answerContents.Controls[x] as Components.EditorAnswerObjectView;
                 if (element == null)
@@ -660,7 +670,9 @@ namespace QuickTestProject
         {
             var answers = new List<string> { "Правильный ответ", "Неправильный ответ" };
             int ix = explorer.currentProject.addQuestion(true, "Безымянный вопрос #" + (explorer.currentProject.questionCount + 1), answers, new List<int> { 0 });
+            isCached = false;
             updateQuestions();
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -671,21 +683,25 @@ namespace QuickTestProject
         private void свернутьВсеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int x;
+            projectExplorer.layout.Visible = false;
             for (x = 0; x < projectExplorer.count; ++x)
             {
                 var fc = projectExplorer.get(x);
                 fc.collapse = true;
             }
+            projectExplorer.layout.Visible = true;
         }
 
         private void расскрытьВсеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int x;
+            projectExplorer.layout.Visible = false;
             for (x = 0; x < projectExplorer.count; ++x)
             {
                 var fc = projectExplorer.get(x);
                 fc.collapse = false;
             }
+            projectExplorer.layout.Visible = true;
         }
 
         private void menuItem8_Click(object sender, EventArgs e)

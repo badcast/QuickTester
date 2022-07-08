@@ -74,5 +74,10 @@ namespace QuickTestProject.Components
         {
             base.OnPaint(e);
         }
+
+        private void EditorProjectExplorer_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

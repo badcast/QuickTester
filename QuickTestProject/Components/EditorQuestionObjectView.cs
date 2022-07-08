@@ -31,7 +31,7 @@ namespace QuickTestProject.Components
             get { return !answerContents.Visible; }
             set
             {
-                Size sz = Size;
+                Size sz = this.answerContents.Size;
                 if (!(answerContents.Visible = !value))
                 {
                     sz.Height = MinimumSize.Height;
@@ -40,14 +40,13 @@ namespace QuickTestProject.Components
                 {
                     sz.Height = answerContents.Height + MinimumSize.Height;
                 }
-                Size = sz;
+                this.answerContents.Size = sz;
 
                 collapseIcon.Image = value ? Properties.Resources.icon_list_arrow_unpin : Properties.Resources.icon_list_arrow_pin;
-
+  
                 if (MainForm.instance.projectExplorer.count > questionIndex)
                     MainForm.instance.updateAnswers(questionIndex);
 
-                Invalidate();
             }
         }
         public int questionIndex = -1;
