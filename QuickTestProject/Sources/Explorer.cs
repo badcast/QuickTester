@@ -767,7 +767,7 @@ Copyright © Internet Society (2005")
             svf.Title = "Сохранение проекта как ...";
             svf.Filter = projectExtensionFilter;
             svf.InitialDirectory = defaultDir ?? projectDirectory();
-            svf.FileName =  (string.IsNullOrEmpty(project.filename) ? project.name : Path.GetFileNameWithoutExtension(project.filename)) + projectFileExtension;
+            svf.FileName = (string.IsNullOrEmpty(project.filename) ? project.name : Path.GetFileNameWithoutExtension(project.filename)) + projectFileExtension;
             if (svf.ShowDialog(mainForm) != DialogResult.OK)
                 return;
 
@@ -787,8 +787,8 @@ Copyright © Internet Society (2005")
 
         public void importTestCsv()
         {
-            Project importedProject;
             int x, y, z = 0;
+            Project importedProject;
 
             opf.Filter = "CSV|*.csv";
             opf.Title = "Импорт";
@@ -796,17 +796,18 @@ Copyright © Internet Society (2005")
                 return;
 
             string name = Path.GetFileNameWithoutExtension(opf.FileName);
-            var document = Csv.open(opf.FileName);
+            
+            var document = Csv.getrows(opf.FileName);
             importedProject = createEmptyProject();
 
-            for (x = 0; x < document.RowCount; ++x)
+            for (x = 0; x < document.Count; ++x)
             {
-                List<string> row = document[x];
+                string[] row = document[x];
                 Question question = new Question();
                 question.question = row[0];//get first column (question) 
                 question.answers = new List<string>();
                 //get's anwers
-                for (y = 1; y < row.Count - 1; ++y)
+                for (y = 1; y < row.Length - 1; ++y)
                     question.answers.Add(row[y]);
 
                 //get's correct answer or answers (index or multi-index) 

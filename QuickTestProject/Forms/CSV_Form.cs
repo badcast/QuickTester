@@ -7,15 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevLib.Csv;
 using System.IO;
+using NReco.Csv;
+
 
 namespace QuickTestProject.Forms
 {
     public partial class CSV_Form : Form
     {
         byte[] targetBuffer;
-        CsvDocument doc;
+        CsvReader csvdoc;
         Encoding enc = Encoding.GetEncoding(1251);
         EncodingInfo[] encodings;
         public CSV_Form()
@@ -53,43 +54,33 @@ namespace QuickTestProject.Forms
             comboBox1.SelectedIndex = y;
         }
 
-        void update()
+        void uptd_an_enc()
         {
-            //TODO: update data a new codding
-            //todo: end
+            int x;
+            string content = String.Empty;
+            MemoryStream mx = new MemoryStream(targetBuffer);
+            using (StreamReader sr = new StreamReader(mx, enc, true))
+            {
+                csvdoc = new CsvReader(sr);
 
-            var mx = new MemoryStream(targetBuffer);
-            using (var ms = new StreamReader(mx, enc, true))
-                    doc.Load(ms);
-            mx.Dispose();
-
-            var table = doc.GetDataTable();
-            if (table == null)
-            {
-                dataGrid.Text = "Данная кодировка не поддерживается";
-                return;
-            }
-            dataGrid.Text = "";
-            for (int i = 0; i < table.Columns.Count; ++i)
-            {
-                dataGrid.Text += table.Columns[i].Caption + "\t\t\t";
-            }
-            dataGrid.Text += Environment.NewLine;
-            for (int x = 0; x < table.Rows.Count; ++x)
-            {
-                for (int i = 0; i < table.Columns.Count; i++)
+                //Simple draw from new encoding
+                while (csvdoc.Read())
                 {
-                    dataGrid.Text += table.Rows[x][i].ToString() + "\t\t\t";
+                    for (x = 0; x < csvdoc.FieldsCount; ++x)
+                    {
+                        content += csvdoc[x] + "\t\t\t";
+                    }
+                    content += Environment.NewLine;
                 }
-                dataGrid.Text += Environment.NewLine;
             }
-
+            dataGrid.Text = content;
+            mx.Dispose();
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             enc = Encoding.GetEncoding(encodings[comboBox1.SelectedIndex].CodePage);
-            update();
+            uptd_an_enc();
         }
 
         private void CSV_Form_Shown(object sender, EventArgs e)
@@ -101,23 +92,24 @@ namespace QuickTestProject.Forms
             this.Close();
         }
 
-        public Encoding show_and_selectEncoding(string filename, CsvDocument csvdoc)
+        public Encoding show_and_selectEncoding(string filename)
         {
+
             using (BinaryReader sr = new BinaryReader(File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                 targetBuffer = sr.ReadBytes((int)sr.BaseStream.Length);
-            this.doc = csvdoc;
-            this.ShowDialog();
-            return enc;
+            if (this.ShowDialog() != DialogResult.OK)
+                this.enc = Encoding.UTF8;
+            return this.enc;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            selectEncoding(1251);
+            selectEncoding(1251); // set as default encoding
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            selectEncoding(Encoding.UTF8.CodePage);
+            selectEncoding(Encoding.UTF8.CodePage); // set as default encoding
         }
     }
 }

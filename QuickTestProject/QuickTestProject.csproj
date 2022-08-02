@@ -8,11 +8,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>QuickTestProject</RootNamespace>
     <AssemblyName>QuickTestProject</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -98,9 +98,6 @@
     <ApplicationIcon>icon-app-backfill.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevLib.Csv, Version=2.17.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevLib.Csv.2.17.8.0\lib\net20\DevLib.Csv.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.Compatibility" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -114,6 +111,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NReco.Csv" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\AnswerView.cs">
@@ -200,13 +201,13 @@
     <Compile Include="Forms\TestRunnerForm.Designer.cs">
       <DependentUpon>TestRunnerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\Module.cs" />
-    <Compile Include="Modules\ZIP.cs" />
-    <Compile Include="Modules\CSV.cs" />
-    <Compile Include="Modules\JSON.cs" />
+    <Compile Include="Modules\base-module.cs" />
+    <Compile Include="Modules\zip-module.cs" />
+    <Compile Include="Modules\csv-use.cs" />
+    <Compile Include="Modules\json-use.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Modules\SimpleJson.cs" />
+    <Compile Include="Modules\external\NReco.Csv\nreco.csv.single.cs" />
     <Compile Include="Sources\Explorer.cs" />
     <Compile Include="Sources\Project.cs" />
     <Compile Include="Sources\ProjectModel.cs" />
@@ -263,7 +264,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
