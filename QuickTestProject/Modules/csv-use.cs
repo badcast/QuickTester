@@ -10,7 +10,8 @@ namespace QuickTestProject.Modules
 {
     public class Csv : Module
     {
-        public static string mimetype = "text/csv";
+        public const string mimetype = "text/csv";
+        public const string extension = ".csv";
 
         public override string name => "NReco.Csv";//"Comma-Separated Values (CSV)";
 
@@ -20,16 +21,39 @@ namespace QuickTestProject.Modules
 
         public static void saveTemplate(string filename)
         {
-            //this is template 
-            File.WriteAllText(filename,
-@"Answers,Answer A,Answer B,Answer C,Answer D,Answer E,Correct answers
-Question 1,Answer 1,Answer 2,Answer 3,Answer 4,Answer 5,""A,B,C""
-Question 2,Answer 1,Answer 2,Answer 3,Answer 4,Answer 5,""A,B,C""
-Question 3,Answer 1,Answer 2,Answer 3,Answer 4,Answer 5,""A,B,C""
-Question 4,Answer 1,Answer 2,Answer 3,Answer 4,Answer 5,""A,B,C""");
+            int x;
+            if (string.Compare(Path.GetExtension(filename), extension) != 0)
+            {
+                System.Windows.Forms.MessageBox.Show("Данный тип расширения не поддерживается.");
+                return;
+            }
+
+            using (var sw = new StreamWriter(File.Open(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite), Encoding.UTF8))
+            {
+                csv.CsvWriter csw = new csv.CsvWriter(sw);
+                csw.WriteField("Answers");
+                csw.WriteField("Answer A");
+                csw.WriteField("Answer B");
+                csw.WriteField("Answer C");
+                csw.WriteField("Answer D");
+                csw.WriteField("Answer E");
+                csw.WriteField("Correct answers");
+                
+
+                for (x = 0; x < 5; ++x)
+                {
+                    csw.NextRecord();
+                    csw.WriteField("Question " + x);
+                    for (int y = 0; y < 5; ++y)
+                        csw.WriteField("Answer " + y);
+
+                    csw.WriteField("A,B,C");
+                }
+            }
         }
 
-        public static List<string[]> getrows(string filename) {
+        public static List<string[]> getrows(string filename)
+        {
 
             int x;
             List<string[]> rows = new List<string[]>();
