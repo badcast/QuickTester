@@ -777,7 +777,7 @@ Copyright © Internet Society (2005")
         public void saveProjectTemplate()
         {
             svf.Title = "Экспорт шаблона таблицы (для импорта)";
-            svf.Filter = "CSV|*.csv";
+            svf.Filter = Csv.csvFilter;
 
             if (svf.ShowDialog() != DialogResult.OK)
                 return;
@@ -789,15 +789,17 @@ Copyright © Internet Society (2005")
         {
             int x, y, z = 0;
             Project importedProject;
+            List<string[]> document;
+            string name;
 
-            opf.Filter = "CSV|*.csv";
+            opf.Filter = Csv.csvFilter;
             opf.Title = "Импорт";
             if (opf.ShowDialog() != DialogResult.OK)
                 return;
 
-            string name = Path.GetFileNameWithoutExtension(opf.FileName);
-            
-            var document = Csv.getrows(opf.FileName);
+            name = Path.GetFileNameWithoutExtension(opf.FileName);
+
+            document = Csv.importCsvData(opf.FileName);
             importedProject = createEmptyProject();
 
             for (x = 0; x < document.Count; ++x)
@@ -843,7 +845,19 @@ Copyright © Internet Society (2005")
 
         public void exportTestCsv()
         {
+            if (this.currentProjectIndex == -1)
+            {
+                MessageBox.Show("Проект для экспорта не выбран.");
+                return;
+            }
 
+            svf.FileName = currentProject.name;
+            svf.Filter = Csv.csvFilter;
+
+            if (svf.ShowDialog() != DialogResult.OK)
+                return;
+
+            Csv.exportProjectAsCsv(svf.FileName, currentProject);
         }
         public void queryQuit()
         {
