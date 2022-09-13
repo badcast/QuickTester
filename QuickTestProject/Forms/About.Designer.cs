@@ -56,9 +56,9 @@ namespace QuickTestProject
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(85, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(217, 19);
+            this.label1.Size = new System.Drawing.Size(178, 19);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Quick Tester v1.0.0 (Квик тестер)";
+            this.label1.Text = "Quick Tester (Квик тестер)";
             // 
             // label2
             // 
@@ -67,7 +67,7 @@ namespace QuickTestProject
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(256, 39);
             this.label2.TabIndex = 1;
-            this.label2.Text = "- Версия 1.0.0\r\n- Описание: Быстрое тестирование для обучения\r\n- Подключенные мод" +
+            this.label2.Text = "- Версия 1.0.1\r\n- Описание: Быстрое тестирование для обучения\r\n- Подключенные мод" +
     "ули: \r\n";
             // 
             // linkLabel1

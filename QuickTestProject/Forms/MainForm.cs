@@ -54,7 +54,7 @@ namespace QuickTestProject
 
             previewList.Groups.Clear();
             previewList.Groups.Add(new ListViewGroup("Сегодня"));
-            _groups = new List<DateTime>() { DateTime.Today };
+            _dateGroups = new List<DateTime>() { DateTime.Today };
 
             infoX_init();
 
@@ -238,41 +238,37 @@ namespace QuickTestProject
 
         }
 
-        List<DateTime> _groups;
+        List<DateTime> _dateGroups;
         public void updatePreviews()
         {
             int x, y;
-            ListViewItem lst;
-
+            ListViewItem previewListElement;
             tabPage4.Text = Explorer.previews.Count > 0 ? "Результаты" : "Результаты (пусто)";
 
             for (x = previewList.Items.Count; x < Explorer.previews.Count; ++x)
             {
-                lst = new System.Windows.Forms.ListViewItem(Explorer.previews[x].data.name, -1);
-                lst.StateImageIndex = 0;
-                y = _groups.IndexOf(Explorer.previews[x].data.writedTime.Date);
+                previewListElement = new System.Windows.Forms.ListViewItem(Explorer.previews[x].data.name, -1);
+                previewListElement.StateImageIndex = 0;
+                y = _dateGroups.IndexOf(Explorer.previews[x].data.writedTime.Date);
                 if (y == -1)
                 {
-                    _groups.Add(Explorer.previews[x].data.writedTime.Date);
+                    _dateGroups.Add(Explorer.previews[x].data.writedTime.Date);
                     previewList.Groups.Add(new ListViewGroup(Explorer.previews[x].data.writedTime.ToShortDateString()));
                 }
-                previewList.Items.Add(lst);
+                previewList.Items.Add(previewListElement);
             }
 
             //update preview info
             for (x = 0; x < Explorer.previews.Count; ++x)
             {
-                lst = previewList.Items[x];
-                lst.Text = Explorer.previews[x].data.name;
-                y = _groups.IndexOf(Explorer.previews[x].data.writedTime.Date);
-                lst.Group = previewList.Groups[y];
+                previewListElement = previewList.Items[x];
+                previewListElement.Text = Explorer.previews[x].data.name;
+                y = _dateGroups.IndexOf(Explorer.previews[x].data.writedTime.Date);
+                previewListElement.Group = previewList.Groups[y];
             }
             //delete ui element
             for (; x < previewList.Items.Count;)
                 previewList.Items.RemoveAt(x);
-
-
-
         }
 
         public static void createEdit(Label upset)
@@ -495,8 +491,8 @@ namespace QuickTestProject
             isCached = true;
 
 
-                label_stats.Text = string.Format(formatStats, explorer.currentProject.questionCount, explorer.currentProject.totalAnswers);
-         
+            label_stats.Text = string.Format(formatStats, explorer.currentProject.questionCount, explorer.currentProject.totalAnswers);
+
 
             GC.Collect(0, GCCollectionMode.Forced, true, true);
         }

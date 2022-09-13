@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace NReco.Csv
+namespace NReco
 {
 
     /// <summary>

@@ -11,11 +11,11 @@ namespace QuickTestProject
 {
     public partial class About : Form
     {
+        static readonly string conj = "   - ";
+
         public About()
         {
             InitializeComponent();
-
-            string conj = "   - ";
             
             module_list.Items.Clear();
 
@@ -45,7 +45,7 @@ namespace QuickTestProject
         {
             try
             {
-                System.Diagnostics.Process.Start("explorer.exe", "https://github.com/badcast");
+                System.Diagnostics.Process.Start("explorer.exe", "https://github.com/badcast/quicktester");
             }
             catch (Exception) { };
         }
