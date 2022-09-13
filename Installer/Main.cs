@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.IO.Compression;
-using Json;
 
 namespace Installer
 {
@@ -18,17 +17,16 @@ namespace Installer
         const int waittime =
 #if DEBUG
             300;
-#else 
+#else
 1000;
 #endif
         bool is_installed = false;
-
+        const string installer_version = "1.0.0";
         public main()
         {
             InitializeComponent();
             checkBox1.Checked = true;
             checkBox1.Visible = false;
-
         }
 
         public static string applicationDirectory()
@@ -46,9 +44,9 @@ namespace Installer
 
         private void appShortcutToDesktop(string linkName, string app)
         {
-            string deskDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            string desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
-            using (StreamWriter writer = new StreamWriter(deskDir + "\\" + linkName + ".url"))
+            using (StreamWriter writer = new StreamWriter(desktopDir + "\\" + linkName + ".url"))
             {
                 writer.WriteLine("[InternetShortcut]");
                 writer.WriteLine("URL=file:///" + app);
@@ -67,6 +65,9 @@ namespace Installer
         void install()
         {
             but.Enabled = false;
+
+            checkBox2.Visible = false;
+
             label1.Text = "Подготовка файлов.";
             Update();
             sleep(waittime);
@@ -80,6 +81,7 @@ namespace Installer
             label1.Text = "Копирование файлов.";
             Update();
             sleep(waittime);
+
             installing();
 
         }
@@ -88,7 +90,7 @@ namespace Installer
         {
             public string projectPath;
             public int projectID;
-            public string version = "1.0.0";
+            public string version = installer_version;
         }
         public class ProjectConfiguration
         {
@@ -103,6 +105,24 @@ namespace Installer
             public bool firstRun = true;
             public bool autoSave = true;
             public int selectedProfile = 0;
+
+            public string getJsonStr()
+            {
+                int x;
+                string json = "{ \"version\": \"" + installer_version + "\", " +
+                              "\"projects\": " +
+                              "[";
+                for (x = 0; x < projects.Count; ++x)
+                {
+                    json += "{ \"projectPath\": \"" + (projects[x].projectPath.Replace("\\", "\\\\")) + "\"," +
+                      "\"projectID\": " + (x + 1) + ",\"version\": \"" + (projects[x].version) + "\"}";
+                    if ((x + 1) != projects.Count)
+                        json += ",";
+                }
+
+                json += "],\"histories\":[],\"focused\": 1,\"firstRun\": true,\"autoSave\": true}";
+                return json;
+            }
         }
 
         string exeFilename;
@@ -110,6 +130,26 @@ namespace Installer
         {
             string installDir = applicationDirectory() + "\\";
             byte[] buf = new byte[4098];
+
+            // backup settings.json 
+            string settingsFilename = installDir + "settings.json";
+            // go backup
+            if (File.Exists(settingsFilename))
+            {
+                string backupFileName;
+                int req = 1;
+                do
+                {
+                    backupFileName = settingsFilename + ".backup-" + req;
+                    ++req;
+                } while (File.Exists(backupFileName));
+
+                File.Move(settingsFilename, backupFileName); // does
+            }
+            //Write projects ?
+            if (!checkBox2.Checked)
+                return;
+
             using (ZipArchive zip = new ZipArchive(new MemoryStream(Properties.Resources.sources)))
             {
                 foreach (var x in zip.Entries)
@@ -120,6 +160,7 @@ namespace Installer
                     {
                         label1.Text = "Копирование " + x.Name;
                         Update();
+                        sleep(16);
                         using (var s = new BinaryWriter(File.OpenWrite(installDir + x.FullName)))
                         {
                             int c;
@@ -155,7 +196,8 @@ namespace Installer
             }
             prop.focused = 1; //first project as focus
 
-            File.WriteAllText(installDir + "settings.json", Json.SimpleJson.SerializeObject(prop));
+            //write settings
+            File.WriteAllText(settingsFilename, prop.getJsonStr());
 
             appShortcutToDesktop("Quick Tester", exeFilename = installDir + "QuickTestProject.exe");
             installed();

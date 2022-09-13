@@ -31,6 +31,7 @@
             this.but = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // but
@@ -73,12 +74,27 @@
             this.checkBox1.Text = "Запустить программу";
             this.checkBox1.UseVisualStyleBackColor = false;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.ForeColor = System.Drawing.Color.White;
+            this.checkBox2.Location = new System.Drawing.Point(135, 79);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(132, 17);
+            this.checkBox2.TabIndex = 10;
+            this.checkBox2.Text = "Копировать проекты";
+            this.checkBox2.UseVisualStyleBackColor = false;
+            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Installer.Properties.Resources.Poryadok_provedeniya_testirovaniya_pedagogov_RK_300x250;
+            this.BackgroundImage = global::Installer.Properties.Resources.background_ui;
             this.ClientSize = new System.Drawing.Size(384, 187);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.but);
@@ -99,6 +115,7 @@
         private System.Windows.Forms.Button but;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

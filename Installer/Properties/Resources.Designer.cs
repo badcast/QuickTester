@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Installer.Properties {
+namespace Installer.Properties
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
@@ -22,59 +23,71 @@ namespace Installer.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
-        
+    internal class Resources
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resources()
+        {
         }
-        
+
         /// <summary>
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Installer.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Перезаписывает свойство CurrentUICulture текущего потока для всех
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Poryadok_provedeniya_testirovaniya_pedagogov_RK_300x250 {
-            get {
-                object obj = ResourceManager.GetObject("Poryadok-provedeniya-testirovaniya-pedagogov-RK-300x250", resourceCulture);
+        internal static System.Drawing.Bitmap background_ui
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("background-ui", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
+
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
-        internal static byte[] sources {
-            get {
+        internal static byte[] sources
+        {
+            get
+            {
                 object obj = ResourceManager.GetObject("sources", resourceCulture);
                 return ((byte[])(obj));
             }
