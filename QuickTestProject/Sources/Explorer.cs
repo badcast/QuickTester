@@ -139,7 +139,12 @@ namespace QuickTestProject
 В этом документе содержится информация для интернет-сообщества. Он не определяет
 Internet-стандарта любого рода. Распространение этого документа не ограничено.
 Уведомление об авторских правах
-Copyright © Internet Society (2005")
+Copyright © Internet Society (2005"),
+            ("https://github.com/zanders3/json",
+@"Tiny json. A really simple C# JSON parser in ~350 lines
+Attempts to parse JSON files with minimal GC allocation
+Nice and simple ""[1,2,3]"".FromJson<List<int>>() API 
+Classes and structs can be parsed too!")
 
         };
         public static string projectFileExtension = ".quix";

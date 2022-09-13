@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using json = System.Text.Json;
+using json = TinyJson;
 
 namespace QuickTestProject.Modules
 {
     public class JSON : Module
     {
-        public override string name => "Newtonsoft.Json";
+        public override string name => "TinyJson";
 
-        public override string version => "12.0.3";
+        public override string version => "1.0.0";
 
         public override string description => Properties.Resources.json_module_description;
 
         public static string serialize<T>(T value)
         {
-            return json.JsonConvert.SerializeObject(value);
+            return json.JSONWriter.ToJson(value);
+           // return json.JsonConvert.SerializeObject(value);
         }
 
         public static T deserialize<T>(string value)
         {
-            return json.JsonConvert.DeserializeObject<T>(value);
+            return json.JSONParser.FromJson<T>(value);
+            //return json.JsonConvert.DeserializeObject<T>(value);
         }
     }
 }

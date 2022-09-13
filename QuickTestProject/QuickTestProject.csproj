@@ -8,9 +8,9 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>QuickTestProject</RootNamespace>
     <AssemblyName>QuickTestProject</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -115,6 +115,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -205,6 +206,8 @@
       <DependentUpon>TestRunnerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\base-module.cs" />
+    <Compile Include="Modules\external\tinyjson\JSONParser.cs" />
+    <Compile Include="Modules\external\tinyjson\JSONWriter.cs" />
     <Compile Include="Modules\zip-module.cs" />
     <Compile Include="Modules\csv-use.cs" />
     <Compile Include="Modules\json-use.cs" />
@@ -329,5 +332,6 @@
     <Content Include="Resources\icon_list_arrow_pin.png" />
     <Content Include="Resources\icon_list_arrow_unpin.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
