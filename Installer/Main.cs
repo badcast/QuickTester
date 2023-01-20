@@ -31,13 +31,13 @@ namespace Installer
 
         public static string applicationDirectory()
         {
-            string path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\QuickTest";
+            string path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/QuickTest";
             Directory.CreateDirectory(path);
             return path;
         }
         public static string projectDirectory()
         {
-            string path = applicationDirectory() + "\\Projects";
+            string path = applicationDirectory() + "/Projects";
             Directory.CreateDirectory(path);
             return path;
         }
@@ -46,7 +46,7 @@ namespace Installer
         {
             string desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
-            using (StreamWriter writer = new StreamWriter(desktopDir + "\\" + linkName + ".url"))
+            using (StreamWriter writer = new StreamWriter(desktopDir + "//" + linkName + ".url"))
             {
                 writer.WriteLine("[InternetShortcut]");
                 writer.WriteLine("URL=file:///" + app);

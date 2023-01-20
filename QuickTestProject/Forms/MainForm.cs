@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -53,7 +53,7 @@ namespace QuickTestProject
             message("");
 
             previewList.Groups.Clear();
-            previewList.Groups.Add(new ListViewGroup("Сегодня"));
+            previewList.Groups.Add(new ListViewGroup("РЎРµРіРѕРґРЅСЏ"));
             _dateGroups = new List<DateTime>() { DateTime.Today };
 
             infoX_init();
@@ -63,7 +63,7 @@ namespace QuickTestProject
                 explorer.currentProject.description = editDescribeInfoX.Text;
             };
 
-            this.оПрограммеMenuItem.Click += (o, e) =>
+            this.РѕРџСЂРѕРіСЂР°РјРјРµMenuItem.Click += (o, e) =>
             {
                 new About().ShowDialog(this);
             };
@@ -82,12 +82,12 @@ namespace QuickTestProject
                     {
                         string strongMsg;
                         if (projects.Length > 0)
-                            strongMsg = String.Format("Вы хотите сохранить изменения в проекте \n\"{0}\"?", projects[0].name);
+                            strongMsg = String.Format("Р’С‹ С…РѕС‚РёС‚Рµ СЃРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ РІ РїСЂРѕРµРєС‚Рµ \n\"{0}\"?", projects[0].name);
                         else
-                            strongMsg = "Вы хотите сохранить изменения всех проектов?";
+                            strongMsg = "Р’С‹ С…РѕС‚РёС‚Рµ СЃРѕС…СЂР°РЅРёС‚СЊ РёР·РјРµРЅРµРЅРёСЏ РІСЃРµС… РїСЂРѕРµРєС‚РѕРІ?";
 
                         DialogResult dr = MessageBox.Show(this, strongMsg,
-                            "Сохранение как..", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                            "РЎРѕС…СЂР°РЅРµРЅРёРµ РєР°Рє..", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                         switch (dr)
                         {
                             case DialogResult.Yes:
@@ -188,7 +188,7 @@ namespace QuickTestProject
             return;
             int j, x, y, w;
             y = 0;
-            using (var sr = new StreamReader(File.Open(@"C:\Users\badcast\Desktop\Новый текстовый документ.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            using (var sr = new StreamReader(File.Open(@"C:\Users\badcast\Desktop\РќРѕРІС‹Р№ С‚РµРєСЃС‚РѕРІС‹Р№ РґРѕРєСѓРјРµРЅС‚.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 Project project = Explorer.createEmptyProject();
                 List<Question> questions = project.model.questions;
@@ -223,7 +223,7 @@ namespace QuickTestProject
                     } while (!sr.EndOfStream);
                     if (w == -1)
                     {
-                        throw new Exception("Нет правильного ответа, что-то надо с этим делать");
+                        throw new Exception("РќРµС‚ РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°, С‡С‚Рѕ-С‚Рѕ РЅР°РґРѕ СЃ СЌС‚РёРј РґРµР»Р°С‚СЊ");
                     }
                     q.question = lines[0];
                     q.answers = new List<string>();
@@ -243,7 +243,7 @@ namespace QuickTestProject
         {
             int x, y;
             ListViewItem previewListElement;
-            tabPage4.Text = Explorer.previews.Count > 0 ? "Результаты" : "Результаты (пусто)";
+            tabPage4.Text = Explorer.previews.Count > 0 ? "Р РµР·СѓР»СЊС‚Р°С‚С‹" : "Р РµР·СѓР»СЊС‚Р°С‚С‹ (РїСѓСЃС‚Рѕ)";
 
             for (x = previewList.Items.Count; x < Explorer.previews.Count; ++x)
             {
@@ -339,12 +339,12 @@ namespace QuickTestProject
                                 //Controls[x].Visible = false;
                             }
 
-                            message("Автосохранение...");
+                            message("РђРІС‚РѕСЃРѕС…СЂР°РЅРµРЅРёРµ...");
                             System.Threading.Thread.Sleep(10);
                             explorer.saveAll(true);
                             System.Threading.Thread.Sleep(10);
 
-                            message("Автосохранение выполнено успешно.");
+                            message("РђРІС‚РѕСЃРѕС…СЂР°РЅРµРЅРёРµ РІС‹РїРѕР»РЅРµРЅРѕ СѓСЃРїРµС€РЅРѕ.");
 
                             for (x = 0; x < Controls.Count; ++x)
                             {
@@ -392,7 +392,7 @@ namespace QuickTestProject
         void updateProjectInfoX(Project project)
         {
             canInfoXupdate = false;
-            infoX_projectName.Text = "Проект не выбран";
+            infoX_projectName.Text = "РџСЂРѕРµРєС‚ РЅРµ РІС‹Р±СЂР°РЅ";
             editDescribeInfoX.Text = "";
             if ((infoXPanel.Enabled = project != null))
             {
@@ -428,8 +428,8 @@ namespace QuickTestProject
             updateProjectInfoX(project);
 
             bool existProject = explorer.currentProject != null;
-            this.Text = string.Format(captionFormat, existProject ? project.name : "(Выберите проект)");
-            tabPage3.Text = existProject ? tabPage3Caption : tabPage3Caption + " (Недоступно)";
+            this.Text = string.Format(captionFormat, existProject ? project.name : "(Р’С‹Р±РµСЂРёС‚Рµ РїСЂРѕРµРєС‚)");
+            tabPage3.Text = existProject ? tabPage3Caption : tabPage3Caption + " (РќРµРґРѕСЃС‚СѓРїРЅРѕ)";
             buttonOpenProjDir.Enabled = existProject;
             (tabPage3 as Panel).Enabled = existProject;
             editDescribeInfoX.Enabled = existProject;
@@ -444,12 +444,12 @@ namespace QuickTestProject
 
             if (project == null)
             {
-                message("Проект не выбран, создайте или откройте существующий проект");
+                message("РџСЂРѕРµРєС‚ РЅРµ РІС‹Р±СЂР°РЅ, СЃРѕР·РґР°Р№С‚Рµ РёР»Рё РѕС‚РєСЂРѕР№С‚Рµ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РїСЂРѕРµРєС‚");
             }
             else
             {
                 updateQuestions();
-                message("Проект \"" + project.name + "\" загружен");
+                message("РџСЂРѕРµРєС‚ \"" + project.name + "\" Р·Р°РіСЂСѓР¶РµРЅ");
             }
         }
 
@@ -520,7 +520,7 @@ namespace QuickTestProject
             fc.ItemLabel.Text = !Explorer.projectConfiguration.hideNumberQuests ?
                             "#" + (questionIndex + 1) + ": " + q.question : q.question;
             fc.Visible = !(Explorer.projectConfiguration.hideDisallowQuests && !fc.active);
-            fc.ItemDescription.Text = string.Format("Ответов {0}", q.answers.Count);
+            fc.ItemDescription.Text = string.Format("РћС‚РІРµС‚РѕРІ {0}", q.answers.Count);
             fc.questionIndex = questionIndex;
             fc.active = q.active;
             updateAnswers(questionIndex);
@@ -611,18 +611,18 @@ namespace QuickTestProject
             updateQuestion(questionIndex);
         }
 
-        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЃРѕР·РґР°С‚СЊToolStripMenuItem_Click(object sender, EventArgs e)
         {
             explorer.createNewProject();
             updateProjectList();
         }
 
-        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РѕС‚РєСЂС‹С‚СЊToolStripMenuItem_Click(object sender, EventArgs e)
         {
             explorer.openProjectFile();
         }
 
-        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЃРѕС…СЂР°РЅРёС‚СЊToolStripMenuItem_Click(object sender, EventArgs e)
         {
             explorer.saveProjectAsDlg(explorer.currentProject);
         }
@@ -637,7 +637,7 @@ namespace QuickTestProject
             explorer.importTestCsv();
         }
 
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РІС‹С…РѕРґToolStripMenuItem_Click(object sender, EventArgs e)
         {
             explorer.queryQuit();
             this.Close();
@@ -664,8 +664,8 @@ namespace QuickTestProject
 
         private void butAddQuest_Click(object sender, EventArgs e)
         {
-            var answers = new List<string> { "Правильный ответ", "Неправильный ответ" };
-            int ix = explorer.currentProject.addQuestion(true, "Безымянный вопрос #" + (explorer.currentProject.questionCount + 1), answers, new List<int> { 0 });
+            var answers = new List<string> { "РџСЂР°РІРёР»СЊРЅС‹Р№ РѕС‚РІРµС‚", "РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ РѕС‚РІРµС‚" };
+            int ix = explorer.currentProject.addQuestion(true, "Р‘РµР·С‹РјСЏРЅРЅС‹Р№ РІРѕРїСЂРѕСЃ #" + (explorer.currentProject.questionCount + 1), answers, new List<int> { 0 });
             isCached = false;
             updateQuestions();
 
@@ -676,7 +676,7 @@ namespace QuickTestProject
             pages.SelectedIndex = 0;
         }
 
-        private void свернутьВсеToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЃРІРµСЂРЅСѓС‚СЊР’СЃРµToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int x;
             projectExplorer.layout.Visible = false;
@@ -688,7 +688,7 @@ namespace QuickTestProject
             projectExplorer.layout.Visible = true;
         }
 
-        private void расскрытьВсеToolStripMenuItem_Click(object sender, EventArgs e)
+        private void СЂР°СЃСЃРєСЂС‹С‚СЊР’СЃРµToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int x;
             projectExplorer.layout.Visible = false;
@@ -709,13 +709,13 @@ namespace QuickTestProject
         {
             if (string.IsNullOrEmpty(explorer.currentProject.filename))
             {
-                MessageBox.Show(this, "Данного проекта отсутствует место назначение, пожалуйста сохраните проект, а потом попробуйте снова.");
+                MessageBox.Show(this, "Р”Р°РЅРЅРѕРіРѕ РїСЂРѕРµРєС‚Р° РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚ РјРµСЃС‚Рѕ РЅР°Р·РЅР°С‡РµРЅРёРµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р° СЃРѕС…СЂР°РЅРёС‚Рµ РїСЂРѕРµРєС‚, Р° РїРѕС‚РѕРј РїРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°.");
                 return;
             }
             System.Diagnostics.Process.Start("explorer.exe", System.IO.Path.GetDirectoryName(explorer.currentProject.filename));
         }
 
-        private void шаблонныйПроектMenuItem_Click(object sender, EventArgs e)
+        private void С€Р°Р±Р»РѕРЅРЅС‹Р№РџСЂРѕРµРєС‚MenuItem_Click(object sender, EventArgs e)
         {
             explorer.createNewFromDefaultTemplate();
         }
@@ -757,7 +757,7 @@ namespace QuickTestProject
             previewContexMenu.Enabled = (previewList.SelectedIndices.Count != 0);
 
             x = previewList.SelectedIndices.Count;
-            string contents = (x == 0 ? "" : x + " элемент(ов)");
+            string contents = (x == 0 ? "" : x + " СЌР»РµРјРµРЅС‚(РѕРІ)");
             toolStripMenuItem9.Text = string.Format(formatMenuItemPRev0, contents);
             toolStripMenuItem5.Text = string.Format(formatMenuItemPRev1, contents);
         }
@@ -778,11 +778,11 @@ namespace QuickTestProject
                     ++c;
             }
 
-            MessageBox.Show(this, String.Format("Успешно архивировано: {0} элемент(ов)\n" +
-                "Не архивированных: {1} элемент(ов)" +
-                "\nВсе архивированные тесты лежат в папке Previews\\Archives. " +
-                "\tСовет: Вы можете в любое время восстановить их в папку " +
-                "Previews любым другим архиватором, рекомендованные и ныне популярные: WinRAR, 7zip, arc", c, x - c), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(this, String.Format("РЈСЃРїРµС€РЅРѕ Р°СЂС…РёРІРёСЂРѕРІР°РЅРѕ: {0} СЌР»РµРјРµРЅС‚(РѕРІ)\n" +
+                "РќРµ Р°СЂС…РёРІРёСЂРѕРІР°РЅРЅС‹С…: {1} СЌР»РµРјРµРЅС‚(РѕРІ)" +
+                "\nР’СЃРµ Р°СЂС…РёРІРёСЂРѕРІР°РЅРЅС‹Рµ С‚РµСЃС‚С‹ Р»РµР¶Р°С‚ РІ РїР°РїРєРµ Previews\\Archives. " +
+                "\tРЎРѕРІРµС‚: Р’С‹ РјРѕР¶РµС‚Рµ РІ Р»СЋР±РѕРµ РІСЂРµРјСЏ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РёС… РІ РїР°РїРєСѓ " +
+                "Previews Р»СЋР±С‹Рј РґСЂСѓРіРёРј Р°СЂС…РёРІР°С‚РѕСЂРѕРј, СЂРµРєРѕРјРµРЅРґРѕРІР°РЅРЅС‹Рµ Рё РЅС‹РЅРµ РїРѕРїСѓР»СЏСЂРЅС‹Рµ: WinRAR, 7zip, arc", c, x - c), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void toolStripMenuItem5_Click_1(object sender, EventArgs e)
@@ -794,7 +794,7 @@ namespace QuickTestProject
                 return z != -1;
             }).ToArray();
             x = explorer.removePreviews(documents);
-            message("Удален " + x + " элемент(ов)");
+            message("РЈРґР°Р»РµРЅ " + x + " СЌР»РµРјРµРЅС‚(РѕРІ)");
         }
     }
 }
