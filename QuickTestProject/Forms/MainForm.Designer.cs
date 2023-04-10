@@ -793,7 +793,7 @@ namespace QuickTestProject
             this.infoXPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+           //this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.const_top.ResumeLayout(false);
@@ -801,7 +801,7 @@ namespace QuickTestProject
             this.tabPage4.ResumeLayout(false);
             this.previewContexMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            //this.ResumeLayout(false);
 
         }
 

@@ -181,20 +181,20 @@ Classes and structs can be parsed too!")
 
         public static string applicationDirectory()
         {
-            string path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\QuickTest";
+            string path = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "QuickTest");
             Directory.CreateDirectory(path);
             return path;
         }
         public static string projectDirectory()
         {
-            string path = applicationDirectory() + "\\Projects";
+            string path = Path.Combine(applicationDirectory(), "Projects");
             Directory.CreateDirectory(path);
             return path;
         }
 
         public static string getPreviewResultDirectory()
         {
-            string path = applicationDirectory() + "\\Previews";
+            string path = Path.Combine(applicationDirectory(), "Previews");
             Directory.CreateDirectory(path);
             return path;
         }
@@ -210,7 +210,7 @@ Classes and structs can be parsed too!")
             return id;
         }
 
-        public static string projectConfigurationFile { get { return applicationDirectory() + "\\settings.json"; } }
+        public static string projectConfigurationFile { get { return Path.Combine(applicationDirectory(), "settings.json"); } }
         public const string version = "1.0.0";
         public const string defaultLabel = "Quest #";
         public static List<Project> projects = new List<Project>();
@@ -334,7 +334,7 @@ Classes and structs can be parsed too!")
             {
                 //previews.RemoveAt(i);
                 //TODO: goto archive
-                string path = getPreviewResultDirectory() + "\\Archives";
+                string path = System.IO.Path.Combine(getPreviewResultDirectory(), "Archives");
                 Directory.CreateDirectory(path);
                 string fname = Path.GetFileNameWithoutExtension(documentLink.filename);
                 x = 0;
@@ -342,14 +342,14 @@ Classes and structs can be parsed too!")
                 do
                 {
                     ++x;
-                    newlocate = path + "\\" + fname + x.ToString() + ".zip";
+                    newlocate = System.IO.Path.Combine(path,fname) + x.ToString() + ".zip";
                 } while (File.Exists(newlocate));
 
                 using (var zip = ZIP.open(newlocate, System.IO.Compression.ZipArchiveMode.Create))
                 {
                     using (var entry = new StreamWriter(zip.CreateEntry(documentLink.filename).Open()))
                     {
-                        string content = File.ReadAllText(getPreviewResultDirectory() + "\\" + documentLink.filename);
+                        string content = File.ReadAllText(System.IO.Path.Combine(getPreviewResultDirectory(), documentLink.filename));
                         entry.Write(content);
                     }
                 }
@@ -380,7 +380,7 @@ Classes and structs can be parsed too!")
                 if (i != -1)
                 {
                     previews.RemoveAt(i);
-                    File.Delete(getPreviewResultDirectory() + "\\" + previewLinks[x].filename);
+                    File.Delete(System.IO.Path.Combine(getPreviewResultDirectory(),previewLinks[x].filename));
                     ++y;
                 }
             }
@@ -405,7 +405,7 @@ Classes and structs can be parsed too!")
                 try
                 {
                     string json = JSON.serialize(previews[x].data);
-                    File.WriteAllText(dir + "\\" + fname, json);
+                    File.WriteAllText(System.IO.Path.Combine(dir, fname), json);
                 }
                 catch
                 {
@@ -636,7 +636,7 @@ Classes and structs can be parsed too!")
             {
                 if (string.IsNullOrEmpty(projs[x].filename))
                 {
-                    string format = "{0}\\{1}{2}{3}";
+                    string format = "{0}:{1}{2}{3}";
                     int numerator = 0;
                     string filename = string.Format(format, projectDirectory(), normalProjectFileName(projs[x].name), numerator == 0 ? "" : numerator.ToString(), projectFileExtension);
 

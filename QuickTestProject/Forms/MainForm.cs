@@ -780,9 +780,9 @@ namespace QuickTestProject
 
             MessageBox.Show(this, String.Format("Успешно архивировано: {0} элемент(ов)\n" +
                 "Не архивированных: {1} элемент(ов)" +
-                "\nВсе архивированные тесты лежат в папке Previews\\Archives. " +
+                "\nВсе архивированные тесты лежат в папке "+System.IO.Path.Combine("Previews","Archives") + 
                 "\tСовет: Вы можете в любое время восстановить их в папку " +
-                "Previews любым другим архиватором, рекомендованные и ныне популярные: WinRAR, 7zip, arc", c, x - c), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                "Previews любым другим архиватором, рекомендованные и ныне популярные: 7zip, arc, WinRAR", c, x - c), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void toolStripMenuItem5_Click_1(object sender, EventArgs e)
