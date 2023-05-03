@@ -114,7 +114,7 @@ namespace Installer
                               "[";
                 for (x = 0; x < projects.Count; ++x)
                 {
-                    json += "{ \"projectPath\": \"" + (projects[x].projectPath.Replace(Explorer.PATH_SEPERATOR.ToString(), "\\\\")) + "\"," +
+                    json += "{ \"projectPath\": \"" + (projects[x].projectPath.Replace("\\", Explorer.PATH_SEPERATOR.ToString())) + "\"," +
                       "\"projectID\": " + (x + 1) + ",\"version\": \"" + (projects[x].version) + "\"}";
                     if ((x + 1) != projects.Count)
                         json += ",";
@@ -129,7 +129,7 @@ namespace Installer
         void installing()
         {
             string installDir = applicationDirectory() + Explorer.PATH_SEPERATOR.ToString();
-            byte[] buf = new byte[4098];
+            byte[] buf = new byte[4096];
 
             // backup settings.json 
             string settingsFilename = installDir + "settings.json";
