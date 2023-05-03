@@ -18,13 +18,11 @@ namespace QuickTestProject.Modules
         public static string serialize<T>(T value)
         {
             return json.JSONWriter.ToJson(value);
-           // return json.JsonConvert.SerializeObject(value);
         }
 
         public static T deserialize<T>(string value)
         {
             return json.JSONParser.FromJson<T>(value);
-            //return json.JsonConvert.DeserializeObject<T>(value);
         }
     }
 }

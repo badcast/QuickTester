@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace QuickTestProject
 {
@@ -48,7 +49,7 @@ namespace QuickTestProject
             foldeDialog.Description = "Выберите папку проекта";
             selectDir.Click += (o, e) =>
             {
-                foldeDialog.SelectedPath = editPath.Text + "\\";
+                foldeDialog.SelectedPath = editPath.Text + Explorer.PATH_SEPERATOR.ToString();
                 if (foldeDialog.ShowDialog() != DialogResult.OK)
                     return;
                 editPath.Text = foldeDialog.SelectedPath;
@@ -65,7 +66,7 @@ namespace QuickTestProject
 
         void setProjectName(string projectName)
         {
-            string projFIlename = editPath.Text + "\\" + Explorer.normalProjectFileName(projectName) + Explorer.projectFileExtension;
+            string projFIlename = editPath.Text + Explorer.PATH_SEPERATOR.ToString() + Explorer.normalProjectFileName(projectName) + Explorer.projectFileExtension;
             bool existsProj = System.IO.File.Exists(projFIlename);
             bool invalidProjectName = !permissionInvalid.Checked && Explorer.hasInvalidChars(projectName);
             string msg = "Нажмите \"Создать\" чтобы продолжить";
@@ -85,7 +86,7 @@ namespace QuickTestProject
 
             statusMessage.Text = msg;
             but_create.Enabled = !invalidProjectName && !existsProj;
-            examplePathPrev.Text = formatCast + " " + editPath.Text + "\\" + Explorer.normalProjectFileName(projectName) + Explorer.projectFileExtension;
+            examplePathPrev.Text = formatCast + " " + editPath.Text + Explorer.PATH_SEPERATOR.ToString() + Explorer.normalProjectFileName(projectName) + Explorer.projectFileExtension;
         }
 
         public bool show(IWin32Window owner, out Project p)

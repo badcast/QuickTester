@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.IO;
 
 namespace TinyJson
 {
@@ -64,7 +65,7 @@ namespace TinyJson
             stringBuilder.Append(json[startIdx]);
             for (int i = startIdx + 1; i < json.Length; i++)
             {
-                if (json[i] == '\\')
+                if (json[i] == '/')
                 {
                     if (appendEscapeCharacter)
                         stringBuilder.Append(json[i]);
@@ -134,7 +135,7 @@ namespace TinyJson
                 StringBuilder parseStringBuilder = new StringBuilder(json.Length);
                 for (int i = 1; i < json.Length - 1; ++i)
                 {
-                    if (json[i] == '\\' && i + 1 < json.Length - 1)
+                    if (json[i] == '/' && i + 1 < json.Length - 1)
                     {
                         int j = "\"\\nrtbf/".IndexOf(json[i + 1]);
                         if (j >= 0)
@@ -286,7 +287,7 @@ namespace TinyJson
             if (json[0] == '"' && json[json.Length - 1] == '"')
             {
                 string str = json.Substring(1, json.Length - 2);
-                return str.Replace("\\", string.Empty);
+                return str.Replace("/", string.Empty);
             }
             if (char.IsDigit(json[0]) || json[0] == '-')
             {

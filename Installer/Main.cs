@@ -51,7 +51,7 @@ namespace Installer
                 writer.WriteLine("[InternetShortcut]");
                 writer.WriteLine("URL=file:///" + app);
                 writer.WriteLine("IconIndex=0");
-                string icon = app.Replace('\\', '/');
+                string icon = app.Replace(Explorer.PATH_SEPERATOR, '/');
                 writer.WriteLine("IconFile=" + icon);
                 writer.Flush();
             }
@@ -114,7 +114,7 @@ namespace Installer
                               "[";
                 for (x = 0; x < projects.Count; ++x)
                 {
-                    json += "{ \"projectPath\": \"" + (projects[x].projectPath.Replace("\\", "\\\\")) + "\"," +
+                    json += "{ \"projectPath\": \"" + (projects[x].projectPath.Replace(Explorer.PATH_SEPERATOR.ToString(), "\\\\")) + "\"," +
                       "\"projectID\": " + (x + 1) + ",\"version\": \"" + (projects[x].version) + "\"}";
                     if ((x + 1) != projects.Count)
                         json += ",";
@@ -128,7 +128,7 @@ namespace Installer
         string exeFilename;
         void installing()
         {
-            string installDir = applicationDirectory() + "\\";
+            string installDir = applicationDirectory() + Explorer.PATH_SEPERATOR.ToString();
             byte[] buf = new byte[4098];
 
             // backup settings.json 

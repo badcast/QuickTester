@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.IO;
 
 namespace TinyJson
 {
@@ -34,9 +35,9 @@ namespace TinyJson
                 stringBuilder.Append('"');
                 string str = item.ToString();
                 for (int i = 0; i < str.Length; ++i)
-                    if (str[i] < ' ' || str[i] == '"' || str[i] == '\\')
+                    if (str[i] < ' ' || str[i] == '"' || str[i] == '/')
                     {
-                        stringBuilder.Append('\\');
+                        stringBuilder.Append('/');
                         int j = "\"\\\n\r\t\b\f".IndexOf(str[i]);
                         if (j >= 0)
                             stringBuilder.Append("\"\\nrtbf"[j]);

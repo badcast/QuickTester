@@ -26,6 +26,7 @@ namespace QuickTestProject
     public class Explorer
     {
         public const int INVALID_ID = 0;
+        public static char PATH_SEPERATOR = Path.DirectorySeparatorChar;
 
         public delegate void Method1();
         public delegate void Method2(Project prevProject, Project newProjectSet);
@@ -138,8 +139,7 @@ namespace QuickTestProject
 Статус этого документа
 В этом документе содержится информация для интернет-сообщества. Он не определяет
 Internet-стандарта любого рода. Распространение этого документа не ограничено.
-Уведомление об авторских правах
-Copyright © Internet Society (2005"),
+Уведомление об авторских правах"),
             ("https://github.com/zanders3/json",
 @"Tiny json. A really simple C# JSON parser in ~350 lines
 Attempts to parse JSON files with minimal GC allocation
@@ -364,7 +364,7 @@ Classes and structs can be parsed too!")
             if (i != -1)
             {
                 previews.RemoveAt(i);
-                File.Delete(getPreviewResultDirectory() + "\\" + documentLink.filename);
+                File.Delete(getPreviewResultDirectory() + Explorer.PATH_SEPERATOR.ToString() + documentLink.filename);
                 onPreviewDocumentListChanged?.Invoke();
             }
             return i != -1;

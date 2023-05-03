@@ -19,8 +19,6 @@ namespace QuickTestProject
             public int correctlyAnswered;
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        extern static int GetSystemMetrics(int TYPE);
         static Question example = new Question() { active = true, answers = new List<string> { "Это большой ответ 1", "Это большой ответ 2" }, correctAnswers = new List<int> { 0, 1 }, question = "Где баран?" };
 
 
@@ -148,7 +146,7 @@ namespace QuickTestProject
         {
             top.HorizontalScroll.Visible = true;
             top.HorizontalScroll.Enabled = false;
-            top.Height += GetSystemMetrics(21);
+            top.Height += 25;
             nextText = butNext.Text;
             void prev(object o, EventArgs e)
             {

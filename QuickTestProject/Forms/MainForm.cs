@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace QuickTestProject
 {
@@ -35,6 +32,7 @@ namespace QuickTestProject
         {
             instance = this;
             InitializeComponent();
+            this.BackColor = Color.FromArgb(0xF0,0xF0,0xF0);
             formatStats = label_stats.Text;
             label_stats.Text = "";
             this.Menu = mainMenu;
@@ -185,57 +183,6 @@ namespace QuickTestProject
 
 
             this.WindowState = FormWindowState.Maximized;
-            return;
-            int j, x, y, w;
-            y = 0;
-            using (var sr = new StreamReader(File.Open(@"C:\Users\badcast\Desktop\Новый текстовый документ.txt", FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
-            {
-                Project project = Explorer.createEmptyProject();
-                List<Question> questions = project.model.questions;
-                char[] filter = new[] { '2', '3', '4', '5', '6', '7', '8', '9', '1', '0', '.', ' ' };
-                string[] lines = new string[32];
-                while (!sr.EndOfStream)
-                {
-                    Question q = new Question();
-                    string line;
-                    j = 0;
-                    w = -1;
-                    do
-                    {
-                        line = sr.ReadLine().TrimStart().TrimStart(filter).TrimEnd();
-                        y++; // lines
-                        if (line.Length == 0)
-                            continue;
-                        if (line.StartsWith("*") || sr.EndOfStream)
-                            break;
-
-                        x = line.LastIndexOf("//");
-                        if (x != -1)
-                            line = line.Remove(x, line.Length - x);
-                        x = line.IndexOf('+');
-                        if (x != -1)
-                        {
-                            w = j - 1;
-                            line = line.Remove(x, 1);
-                        }
-                        lines[j++] = line;
-
-                    } while (!sr.EndOfStream);
-                    if (w == -1)
-                    {
-                        throw new Exception("Нет правильного ответа, что-то надо с этим делать");
-                    }
-                    q.question = lines[0];
-                    q.answers = new List<string>();
-                    for (x = 1; x < j; ++x)
-                        q.answers.Add(lines[x]);
-                    q.correctAnswers = new List<int>();
-                    q.correctAnswers.Add(w);
-                    questions.Add(q);
-                }
-                explorer.registerProjectInRuntime(project);
-            }
-
         }
 
         List<DateTime> _dateGroups;
