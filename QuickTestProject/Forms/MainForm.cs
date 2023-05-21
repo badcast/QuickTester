@@ -167,7 +167,7 @@ namespace QuickTestProject
             updateProjectList();
 
             explorer.onPreviewDocumentListChanged += updatePreviews;
-
+            return; 
             //check autosaver
             autosave(autosaveMenuItem.Checked = Explorer.projectConfiguration.autoSave);
             autosaveMenuItem.Click += (o, e) =>
