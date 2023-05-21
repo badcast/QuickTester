@@ -9,7 +9,7 @@ namespace QuickTestProject
     internal static class Program
     {
         /// <summary>
-        /// Главная точка входа для приложения.
+        /// Р“Р»Р°РІРЅР°СЏ С‚РѕС‡РєР° РІС…РѕРґР° РґР»СЏ РїСЂРёР»РѕР¶РµРЅРёСЏ.
         /// </summary>
         [STAThread]
         static void Main()
