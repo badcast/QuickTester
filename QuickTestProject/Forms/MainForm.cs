@@ -79,7 +79,7 @@ namespace QuickTestProject
                     else
                     {
                         string strongMsg;
-                        if (projects.Length > 0)
+                        if (projects.Length == 1)
                             strongMsg = String.Format("Вы хотите сохранить изменения в проекте \n\"{0}\"?", projects[0].name);
                         else
                             strongMsg = "Вы хотите сохранить изменения всех проектов?";
@@ -159,6 +159,7 @@ namespace QuickTestProject
             if (Explorer.projectConfiguration.firstRun && Explorer.projects.Count == 0)
             {
                 Explorer.projectConfiguration.firstRun = false;
+                new About().ShowDialog(this);
                 explorer.createNewProject();
             }
 
@@ -167,7 +168,7 @@ namespace QuickTestProject
             updateProjectList();
 
             explorer.onPreviewDocumentListChanged += updatePreviews;
-            return; 
+           
             //check autosaver
             autosave(autosaveMenuItem.Checked = Explorer.projectConfiguration.autoSave);
             autosaveMenuItem.Click += (o, e) =>
